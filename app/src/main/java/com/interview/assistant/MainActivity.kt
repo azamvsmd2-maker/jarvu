@@ -247,3 +247,69 @@ fun TopAppBar(
         }
     }
 }
+
+@Composable
+fun InterviewCard(message: Message) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFF191A1F))
+            .border(1.dp, Color(0xFF2E3039), RoundedCornerShape(8.dp))
+            .padding(14.dp)
+    ) {
+        Text(
+            text = "Q: ${message.question}",
+            fontSize = 13.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color(0xFF8E95A5)
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Material3RichText {
+            Markdown(
+                content = if (message.answer.isEmpty() && message.isStreaming) "..." else message.answer
+            )
+        }
+    }
+}
+
+@Composable
+fun InputBar(text: String, onTextChanged: (String) -> Unit, onSend: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF131418))
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextField(
+            value = text,
+            onValueChange = onTextChanged,
+            placeholder = { Text("Manual question input...", color = Color(0xFF555865), fontSize = 14.sp) },
+            modifier = Modifier
+                .weight(1f)
+                .background(Color(0xFF1E2028), RoundedCornerShape(6.dp)),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            ),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+            keyboardActions = KeyboardActions(onSend = { onSend() })
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Button(
+            onClick = onSend,
+            shape = RoundedCornerShape(6.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2F66EE))
+        ) {
+            Text("Ask", fontSize = 13.sp)
+        }
+    }
+}
