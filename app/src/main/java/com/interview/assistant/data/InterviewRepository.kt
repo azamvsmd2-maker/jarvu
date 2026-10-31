@@ -34,7 +34,7 @@ class InterviewRepository(context: Context) {
 
     private fun initModel(apiKey: String) {
         val model = GenerativeModel(
-            modelName = "gemini-2.5-flash",
+            modelName = "gemini-3.8-flash",
             apiKey = apiKey,
             systemInstruction = content { text(InterviewPromptConfig.SYSTEM_INSTRUCTION) }
         )
